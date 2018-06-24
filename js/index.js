@@ -16,8 +16,9 @@ var Store = {
 
     localStorage.setItem('books', JSON.stringify(this.books))
   },
-  deleteBook: function(target) {
-    var isbn = target.parentElement.previousElementSibling.innerHTML
+  deleteBook: function(e) {
+    e.preventDefault()
+    var isbn = e.target.parentElement.previousElementSibling.innerHTML
 
     this.books = this.books.filter(function(book) {
       return book.isbn !== isbn
@@ -76,7 +77,10 @@ UI.prototype.showAlert = function(msg, className) {
 }
 
 UI.prototype.render = function() {
-  bookListEl.innerHTML = ''
+  while (bookListEl.firstChild) {
+    bookListEl.removeChild(bookListEl.firstChild)
+  }
+
   var ui = new UI()
   Store.getBooks().forEach(function(book, i) {
     book && ui.addBook(book, i)
@@ -130,7 +134,7 @@ bookListEl.addEventListener('click', function(e) {
   var ui = new UI()
 
   // delete book
-  Store.deleteBook(e.target)
+  Store.deleteBook(e)
   ui.render()
 
   // success alert
