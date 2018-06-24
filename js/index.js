@@ -20,11 +20,16 @@ var Store = {
     e.preventDefault()
     var isbn = e.target.parentElement.previousElementSibling.innerHTML
 
-    this.books = this.books.filter(function(book) {
-      return book.isbn !== isbn
-    })
+    if (isbn[0] !== '<') {
+      this.books = this.books.filter(function(book) {
+        return book.isbn !== isbn
+      })
 
-    localStorage.setItem('books', JSON.stringify(this.books))
+      localStorage.setItem('books', JSON.stringify(this.books))
+
+      var ui = new UI()
+      ui.render()
+    }
   }
 }
 
@@ -85,6 +90,7 @@ UI.prototype.render = function() {
   Store.getBooks().forEach(function(book, i) {
     book && ui.addBook(book, i)
   })
+  // console.log('render')
 }
 
 // Event Listeners
@@ -135,7 +141,6 @@ bookListEl.addEventListener('click', function(e) {
 
   // delete book
   Store.deleteBook(e)
-  ui.render()
 
   // success alert
   ui.showAlert('A book has been deleted', 'success')
