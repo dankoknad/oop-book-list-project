@@ -28,6 +28,7 @@ var Store = {
       localStorage.setItem('books', JSON.stringify(this.books))
 
       var ui = new UI()
+      ui.showAlert('A book has been deleted', 'success')
       ui.render()
     }
   }
@@ -136,12 +137,6 @@ formEl.addEventListener('submit', function(e) {
 })
 
 bookListEl.addEventListener('click', function(e) {
-  // instantiate ui
-  var ui = new UI()
-
   // delete book
   Store.deleteBook(e)
-
-  // success alert
-  ui.showAlert('A book has been deleted', 'success')
 })
