@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var ui = new UI()
 
   Store.getBooks().forEach(function(book, i) {
-    ui.addBook(book, i)
+    book && ui.addBook(book, i)
   })
 })
 
