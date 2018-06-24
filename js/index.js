@@ -75,10 +75,12 @@ UI.prototype.showAlert = function(msg, className) {
   }, 3000)
 }
 
-UI.prototype.deleteBook = function(target) {
-  if (target.className === 'delete') {
-    target.parentElement.parentElement.remove()
-  }
+UI.prototype.render = function() {
+  bookListEl.innerHTML = ''
+  var ui = new UI()
+  Store.getBooks().forEach(function(book, i) {
+    book && ui.addBook(book, i)
+  })
 }
 
 // Event Listeners
@@ -112,8 +114,8 @@ formEl.addEventListener('submit', function(e) {
   } else {
     // add book to list
     var count = Store.getBooks().length
-    ui.addBook(book, count)
     Store.addBook(book, count)
+    ui.render()
 
     // success alert
     ui.showAlert('A book has been added', 'success')
@@ -128,8 +130,8 @@ bookListEl.addEventListener('click', function(e) {
   var ui = new UI()
 
   // delete book
-  ui.deleteBook(e.target)
   Store.deleteBook(e.target)
+  ui.render()
 
   // success alert
   ui.showAlert('A book has been deleted', 'success')
