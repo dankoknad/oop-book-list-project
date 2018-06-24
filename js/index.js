@@ -5,6 +5,28 @@ var containerEl = document.getElementById('container'),
   isbnInputEl = document.getElementById('isbn'),
   bookListEl = document.getElementById('book-list')
 
+// Local Storage & app state
+var Store = {
+  books: JSON.parse(localStorage.getItem('books')) || [],
+  getBooks: function() {
+    return this.books
+  },
+  addBook: function(book) {
+    this.books.push(book)
+
+    localStorage.setItem('books', JSON.stringify(this.books))
+  },
+  deleteBook: function(target) {
+    var isbn = target.parentElement.previousElementSibling.innerHTML
+
+    this.books = this.books.filter(function(book) {
+      return book.isbn !== isbn
+    })
+
+    localStorage.setItem('books', JSON.stringify(this.books))
+  }
+}
+
 // Book Constructor
 function Book(title, author, isbn) {
   this.title = title
@@ -23,14 +45,11 @@ UI.prototype.addBook = function(book) {
   bookRowEl.innerHTML =
     '<td>' +
     book.title +
-    '</td>' +
-    '<td>' +
+    '</td><td>' +
     book.author +
-    '</td>' +
-    '<td>' +
+    '</td><td>' +
     book.isbn +
-    '</td>' +
-    '<td><a href="#" class="delete">X</a></td>'
+    '</td><td><a href="#" class="delete">X</a></td>'
 
   bookListEl.appendChild(bookRowEl)
 }
@@ -62,6 +81,14 @@ UI.prototype.deleteBook = function(target) {
 
 // Event Listeners
 
+document.addEventListener('DOMContentLoaded', function() {
+  var ui = new UI()
+
+  Store.getBooks().forEach(function(book) {
+    ui.addBook(book)
+  })
+})
+
 formEl.addEventListener('submit', function(e) {
   e.preventDefault()
 
@@ -83,6 +110,7 @@ formEl.addEventListener('submit', function(e) {
   } else {
     // add book to list
     ui.addBook(book)
+    Store.addBook(book)
 
     // success alert
     ui.showAlert('A book has been added', 'success')
@@ -102,6 +130,7 @@ bookListEl.addEventListener('click', function(e) {
 
   // delete book
   ui.deleteBook(e.target)
+  Store.deleteBook(e.target)
 
   // success alert
   ui.showAlert('A book has been deleted', 'success')
