@@ -118,13 +118,9 @@ formEl.addEventListener('submit', function(e) {
     // clear form fields
     ui.clearFields()
   }
-
-  // console.log(book)
 })
 
 bookListEl.addEventListener('click', function(e) {
-  // console.log(e.target)
-
   // instantiate ui
   var ui = new UI()
 
