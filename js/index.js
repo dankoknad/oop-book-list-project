@@ -37,13 +37,15 @@ function Book(title, author, isbn) {
 // UI Constructor
 function UI() {}
 
-UI.prototype.addBook = function(book) {
+UI.prototype.addBook = function(book, i) {
   // create new row el
   var bookRowEl = document.createElement('tr')
 
   // insert columns
   bookRowEl.innerHTML =
     '<td>' +
+    (i + 1) +
+    '</td><td>' +
     book.title +
     '</td><td>' +
     book.author +
@@ -84,8 +86,8 @@ UI.prototype.deleteBook = function(target) {
 document.addEventListener('DOMContentLoaded', function() {
   var ui = new UI()
 
-  Store.getBooks().forEach(function(book) {
-    ui.addBook(book)
+  Store.getBooks().forEach(function(book, i) {
+    ui.addBook(book, i)
   })
 })
 
@@ -109,8 +111,9 @@ formEl.addEventListener('submit', function(e) {
     ui.showAlert('Please fill all form fields', 'error')
   } else {
     // add book to list
-    ui.addBook(book)
-    Store.addBook(book)
+    var count = Store.getBooks().length
+    ui.addBook(book, count)
+    Store.addBook(book, count)
 
     // success alert
     ui.showAlert('A book has been added', 'success')
