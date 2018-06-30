@@ -28,7 +28,7 @@ var Store = {
       localStorage.setItem('books', JSON.stringify(this.books))
 
       var ui = new UI()
-      ui.showAlert('A book has been deleted', 'success')
+      ui.showAlert('A book has been deleted', 'warning')
       ui.render()
     }
   }

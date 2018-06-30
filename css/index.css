@@ -3,6 +3,7 @@ h1 {
 }
 
 .success,
+.warning,
 .error {
   position: absolute;
   top: 70px;
@@ -16,7 +17,9 @@ h1 {
 .success {
   background: #32CD32;
 }
-
+.warning {
+  background: orange;
+}
 .error {
   background: #f00;
 }
